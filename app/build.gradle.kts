@@ -70,7 +70,7 @@ dependencies {
 
     var room_version = "2.5.0"
 
-    //ksp("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+ksp("androidx.room:room-compiler:$room_version")
+implementation("androidx.room:room-ktx:$room_version")
+implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 }
