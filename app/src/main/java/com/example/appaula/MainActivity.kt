@@ -13,9 +13,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -79,13 +82,21 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Cadastro(viewModel: PessoaViewModel, mainActivity: MainActivity){
+
     var nome by remember { mutableStateOf("") }
     var telefone by remember { mutableStateOf("") }
 
-    var pessoa = Pessoa(
+    val pessoa = Pessoa(
         nome,
         telefone
     )
+
+    var pessoaList by remember{ mutableStateOf(listOf<Pessoa>()) }
+
+    viewModel.getPessoa().observe(mainActivity){
+        pessoaList = it
+    }
+
     Column (modifier = Modifier.background(color = Color(67,159,230,90))) {
         Row {
             Spacer(modifier = Modifier.height(20.dp))
@@ -115,5 +126,30 @@ fun Cadastro(viewModel: PessoaViewModel, mainActivity: MainActivity){
                 Text(text = "Cadastrar")
             }
         }
+        Divider()
+        LazyColumn {
+            items(pessoaList){ pessoa->
+                Row(
+                    Modifier.fillMaxWidth(),
+                    Arrangement.Center
+                ) {
+                    Column(
+                        Modifier.fillMaxWidth(0.5f),
+                        Arrangement.Center
+                    ) {
+                        Text(text = "${pessoa.nome}")
+                    }
+
+                    Column(
+                        Modifier.fillMaxWidth(0.5f),
+                        Arrangement.Center
+                    ) {
+                        Text(text = "${pessoa.telefone}")
+                    }
+                }
+                Divider()
+            }
+        }
     }
 }
+
